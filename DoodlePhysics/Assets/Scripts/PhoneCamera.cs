@@ -1,16 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PhoneCamera : MonoBehaviour
 {
     private bool camAvailable;
     private Texture defaultBackground;
-    private WebCamTexture backCam;
+    private WebCamTexture camera;
 
     public RawImage background;
     public AspectRatioFitter fit;
+
+    /// <summary>
+    /// The web cam texture
+    /// </summary>
+    private WebCamTexture m_texture = null;
 
     // Start is called before the first frame update
     void Start()
@@ -23,47 +30,24 @@ public class PhoneCamera : MonoBehaviour
     {
         if (!camAvailable)
         {
-            defaultBackground = background.texture;
-            WebCamDevice[] devices = WebCamTexture.devices;
+            string cameraName = PlayerPrefs.GetString("ActiveCamera");
+            camera = new WebCamTexture(cameraName, Screen.width, Screen.height);
 
-            if (devices.Length == 0)
-            {
-                Debug.Log("No camera detected");
-                camAvailable = false;
-                return;
-            }
-
-            for (int i = 0; i < devices.Length; i++)
-            {
-                Debug.Log(devices[i].name);
-                if (devices[i].name == "Back Camera" || devices[i].name == "Remote Back Camera")
-                {
-                    Debug.Log(devices[i].name);
-                    backCam = new WebCamTexture(devices[i].name, Screen.width, Screen.height);
-                }
-            }
-
-            if (backCam == null)
-            {
-                Debug.Log("Unable to find back camera");
-                return;
-            }
-
-            backCam.Play();
-            background.texture = backCam;
+            camera.Play();
+            background.texture = camera;
 
             camAvailable = true;
         }
 
         if (camAvailable == true)
         {
-            float ratio = (float)backCam.width / (float)backCam.height;
+            float ratio = (float)camera.width / (float)camera.height;
             fit.aspectRatio = ratio;
 
-            float scaleY = backCam.videoVerticallyMirrored ? -1f : 1f;
+            float scaleY = camera.videoVerticallyMirrored ? -1f : 1f;
             background.rectTransform.localScale = new Vector3(1f, scaleY, 1f);
 
-            int orient = -backCam.videoRotationAngle;
+            int orient = -camera.videoRotationAngle;
             background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
         }
 
