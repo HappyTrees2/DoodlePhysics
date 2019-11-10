@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class cameraButtonHandler : MonoBehaviour
 {
+    static public bool[,] binArray;
+
     public void captureDoodle(RawImage background)
     {
         #region image capture
         WebCamTexture capture = (UnityEngine.WebCamTexture)background.texture;
         Color[] Pixels = capture.GetPixels();
-        bool[,] binArray = new bool[capture.width, capture.height];
+        binArray = new bool[capture.width, capture.height];
 
         Debug.Log(capture.width);
         Debug.Log(capture.height);
@@ -29,25 +32,27 @@ public class cameraButtonHandler : MonoBehaviour
             }
         }
         #endregion
-
-        #region array output
-        string row;
-        for (int i = 0; i < capture.width; i++)
-        {
-            row = "";
-            for (int j = 0; j < capture.height; j++)
-            {
-                if (binArray[i, j])
+        /*
+                #region array output
+                string row;
+                for (int i = 0; i < capture.width; i++)
                 {
-                    row += "1";
+                    row = "";
+                    for (int j = 0; j < capture.height; j++)
+                    {
+                        if (binArray[i, j])
+                        {
+                            row += "1";
+                        }
+                        else
+                        {
+                            row += "0";
+                        }
+                    }
+                    Debug.Log(row);
                 }
-                else
-                {
-                    row += "0";
-                }
-            }
-            Debug.Log(row);
-        }
-        #endregion
+                #endregion
+            */
+        SceneManager.LoadScene(3);
     }
 }
