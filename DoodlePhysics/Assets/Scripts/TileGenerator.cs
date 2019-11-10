@@ -28,6 +28,7 @@ public class TileGenerator : MonoBehaviour
         Debug.Log("Getting array: ");
         Debug.Log(cameraButtonHandler.binArray.GetValue(1, 1));
         Vector3Int tileIndex = new Vector3Int(0, 0, 0);
+
         for (int row = 0; row < cameraButtonHandler.binArray.GetLength(0); row++)
         {
             for (int column = 0; column < cameraButtonHandler.binArray.GetLength(1); column++)

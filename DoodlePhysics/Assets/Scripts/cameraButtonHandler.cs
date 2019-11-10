@@ -16,8 +16,8 @@ public class cameraButtonHandler : MonoBehaviour
         Color[] Pixels = capture.GetPixels();
         binArray = new bool[capture.width, capture.height];
 
-        //Debug.Log(capture.width);
-        //Debug.Log(capture.height);
+        Debug.Log(capture.width);
+        Debug.Log(capture.height);
 
         for (int i = 0; i < Pixels.Length; i++)
         {
