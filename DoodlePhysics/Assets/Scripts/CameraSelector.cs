@@ -25,10 +25,6 @@ public class CameraSelector : MonoBehaviour
 
     void OnGUI()
     {
-        if (m_indexDevice >= 0 && WebCamTexture.devices.Length > 0)
-        {
-        }
-
         if (Application.HasUserAuthorization(UserAuthorization.WebCam))
         {
             GUILayout.BeginArea(new Rect(10, Screen.height / 8, 1500, 2500));
@@ -57,26 +53,6 @@ public class CameraSelector : MonoBehaviour
                                          GUILayout.MaxHeight(Screen.height / 8),
                                          GUILayout.MaxWidth(Screen.width - 20)))
                     {
-                        m_indexDevice = index;
-
-                        // stop playing
-                        if (null != m_texture)
-                        {
-                            if (m_texture.isPlaying)
-                            {
-                                m_texture.Stop();
-                            }
-                        }
-
-                        // destroy the old texture
-                        if (null != m_texture)
-                        {
-                            UnityEngine.Object.DestroyImmediate(m_texture, true);
-                        }
-
-                        // use the device name
-                        //m_texture = new WebCamTexture(device.name, Screen.width, Screen.height);
-
                         PlayerPrefs.SetString("ActiveCamera", device.name);
 
                         SceneManager.LoadScene(2);
@@ -87,7 +63,7 @@ public class CameraSelector : MonoBehaviour
         }
         else
         {
-            GUILayout.Label("Pending WebCam Authorization...");
+            GUILayout.Label("Pending Camera Authorization...");
         }
     }
 
