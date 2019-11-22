@@ -25,12 +25,15 @@ public class TileGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Getting array: ");
+        Debug.Log(cameraButtonHandler.binArray.GetValue(1, 1));
         Vector3Int tileIndex = new Vector3Int(0, 0, 0);
-        for (int row = 0; row < values.GetLength(0); row++)
+
+        for (int row = 0; row < cameraButtonHandler.binArray.GetLength(0); row++)
         {
-            for (int column = 0; column < values.GetLength(1); column++)
+            for (int column = 0; column < cameraButtonHandler.binArray.GetLength(1); column++)
             {
-                if (values[row, column] == 1)
+                if (cameraButtonHandler.binArray[row, column] == true)
                 {
                     tilemap.SetTile(tileIndex, tile);
                 }
@@ -43,6 +46,7 @@ public class TileGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetMouseButtonUp(0))
         {
             drawing = false;
@@ -68,5 +72,6 @@ public class TileGenerator : MonoBehaviour
             Debug.Log("Circle Click " + clickPosition);
             Instantiate(circle, clickPosition, Quaternion.identity);
         }
+        */
     }
 }
