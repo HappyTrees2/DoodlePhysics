@@ -42,12 +42,16 @@ public class CameraSelector : MonoBehaviour
                         continue;
                     }
 
-                    if (GUILayout.Button(string.Format("{0}{1}{2}",
-                                                       m_indexDevice == index
-                                                       ? "["
-                                                       : string.Empty,
-                                                       device.name,
-                                                       m_indexDevice == index ? "]" : string.Empty),
+                    GUIStyle customButton = new GUIStyle("button");
+                    customButton.fontSize = 40;
+                    customButton.font = (UnityEngine.Font)Resources.Load("Tioem-Handwritten");
+                    customButton.imagePosition = ImagePosition.TextOnly;
+
+                    GUIContent buttonContent = new GUIContent(device.name);
+                    buttonContent.image = (UnityEngine.Texture)Resources.Load("nicole_button");
+
+                    if (GUILayout.Button(buttonContent,
+                                         customButton,
                                          GUILayout.MinWidth(Screen.width - 20),
                                          GUILayout.MinHeight(Screen.height / 8),
                                          GUILayout.MaxHeight(Screen.height / 8),
