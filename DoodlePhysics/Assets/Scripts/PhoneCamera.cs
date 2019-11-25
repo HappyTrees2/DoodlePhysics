@@ -10,14 +10,11 @@ public class PhoneCamera : MonoBehaviour
     private bool camAvailable;
     private Texture defaultBackground;
     private WebCamTexture camera;
+    private float backHeight;
+    public float backWidth;
+    public RectTransform canvasDims;
 
     public RawImage background;
-    public AspectRatioFitter fit;
-
-    /// <summary>
-    /// The web cam texture
-    /// </summary>
-    private WebCamTexture m_texture = null;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +27,14 @@ public class PhoneCamera : MonoBehaviour
     {
         if (!camAvailable)
         {
+            backHeight = canvasDims.rect.height;
+            backWidth = canvasDims.rect.width;
+
             string cameraName = PlayerPrefs.GetString("ActiveCamera");
-            camera = new WebCamTexture(cameraName, Screen.width, Screen.height);
+            camera = new WebCamTexture(cameraName, (int)backWidth, (int)backHeight);
 
             camera.Play();
+
             background.texture = camera;
 
             camAvailable = true;
@@ -41,18 +42,25 @@ public class PhoneCamera : MonoBehaviour
 
         if (camAvailable == true)
         {
-            float ratio = (float)camera.width / (float)camera.height;
-            fit.aspectRatio = ratio;
+            backHeight = canvasDims.rect.height;
+            backWidth = canvasDims.rect.width;
 
             float scaleY = camera.videoVerticallyMirrored ? -1f : 1f;
             background.rectTransform.localScale = new Vector3(1f, scaleY, 1f);
 
             int orient = -camera.videoRotationAngle;
             background.rectTransform.localEulerAngles = new Vector3(0, 0, orient);
+
+            if (orient != 0)
+            {
+                background.rectTransform.sizeDelta = new Vector2(backHeight, backWidth);
+            }
+            else
+            {
+                background.rectTransform.sizeDelta = new Vector2(backWidth, backHeight);
+            }
+
+            background.rectTransform.position = new Vector3(canvasDims.position.x, canvasDims.position.y, 0);
         }
-
-
-        //UnityEngine.Texture2D newTexture = (UnityEngine.Texture2D)defaultBackground;
-        //background.texture = newTexture;
     }
 }
