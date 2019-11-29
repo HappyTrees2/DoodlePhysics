@@ -22,8 +22,8 @@ public class SpawnCircle : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
 
-            if (touch.phase == TouchPhase.Began)
-                Instantiate(circle, touchPos, Quaternion.identity);
+            if (touch.phase == TouchPhase.Began)  
+                Instantiate(circle, touchPos, Quaternion.identity);          
         }
     }
 }
