@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class PhoneCamera : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PhoneCamera : MonoBehaviour
     private Texture defaultBackground;
     private WebCamTexture camera;
     private float backHeight;
+    public String cameraName;
     public float backWidth;
     public RectTransform canvasDims;
 
@@ -30,7 +32,7 @@ public class PhoneCamera : MonoBehaviour
             backHeight = canvasDims.rect.height;
             backWidth = canvasDims.rect.width;
 
-            string cameraName = PlayerPrefs.GetString("ActiveCamera");
+            cameraName = PlayerPrefs.GetString("ActiveCamera");
             camera = new WebCamTexture(cameraName, (int)backWidth, (int)backHeight);
 
             camera.Play();
@@ -46,6 +48,10 @@ public class PhoneCamera : MonoBehaviour
             backWidth = canvasDims.rect.width;
 
             float scaleY = camera.videoVerticallyMirrored ? -1f : 1f;
+            if (EditorApplication.isRemoteConnected && cameraName == "Remote Back Camera")
+            {
+                scaleY = 1f;
+            }
             background.rectTransform.localScale = new Vector3(1f, scaleY, 1f);
 
             int orient = -camera.videoRotationAngle;
